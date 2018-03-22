@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Twitch2</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="script.js"></script>
+
+</head>
+<body>
+	<div class="wrap">
+	  <header>
+	  <img src="https://cdn.shopify.com/s/files/1/1620/5647/files/Twitch_Shatter_grande.png" id="logo" alt="logo">
+	  <!-- filters --> 
+	  <form action = "" id = "filters">      
+	      <input type="radio" name="filter" value = "all" id = "all"   class = "all" checked >
+	      <label for="all">all</label>
+	      <input type="radio" name="filter" value = "online" id = "online">
+	      <label for="online">online</label>
+	      <input type="radio" name="filter" value = "offline" id = "offline" >
+	      <label for="offline" >offline</label>   
+	    </form>
+	    <hr>    
+	 
+	  <!-- search -->
+	  <input type="search" id="input"  placeholder="Search is not working:/">
+	  </header>
+	  <div id="output" class="grid" ></div>   
+	</div>
+
+</body>
+</html>
