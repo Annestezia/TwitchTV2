@@ -1,54 +1,29 @@
+:root {
+  --main-color: #6441A4;
+  --pane-padding: 10px 5px;
+}
+
 *{
   font-family: 'Tahoma', 'sans-serif';  
   padding: 0;
   margin: 0;
   transition: all .5s;
 }
+
 body{
   min-width:180px;
 }
-body header{
-  min-width :180px;
+header{
   text-align: center;
 }
+#logo{
+  width: 4em;
+  position: relative;
+  top:20px;
+  left: -15px;
+}
 
-.grid{
-  display: grid;
-  grid-template-columns:  repeat(var(--colNum),200px); 
-  justify-content: center;
-  align-items: stretch;
-  grid-gap: 1em;
-  grid-auto-rows:200px;   
-  --color: red;
-  --colNum:3;
-}
-.box{
-  background-color: #eee;
-  color: #777;
-  padding: 15px;
-  display:block;
-/*   align-self: end; */
-}
-.box:hover{
-  box-shadow: 0 0 1px 1px rgba(0,0,0,.3);
-  transition: all .3s;
-}
-.box>span{
-  background-color: rgba(255,255,255,.7);
-  color: #333;
-  padding: 5px;
-}
-input[type = search]{
-  padding: 10px;
-  width: 110px;
-  margin: 10px;
-}
-input[type = search]:focus{
-  width: 200px;
-}
-a{
-  text-decoration:none;
-}
+/* radio inputs */
 #filters{
   display: inline-block;
   border-radius: 10px;
@@ -72,60 +47,113 @@ input[type=radio]:checked + label{
   color: white;
   background: #6441A4;
 }
-.offline{display:block;} 
-.online:before{
-  content:'';
-  width: 10px;
-  height: 10px;
-  background-color: #46a441;
-  display: inline-block;
-  margin-right: 10px; 
-}
-.offline:before{
-  content:'';
-  width: 10px;
-  height: 10px;
-  background: var(--color);
-  display: inline-block;
-  margin-right: 10px;
+
+
+
+
+
+li{
+  list-style:none;
 }
 
-.noUser{
+a{
+  text-decoration: none;
+}
+#output{
+  margin: 10px 0;
+  display: grid;   
+  justify-content: center;
+  grid-template-columns:  repeat(var(--colNum),200px); 
+  grid-gap: 1em;
+  grid-auto-rows:200px; 
+  --colNum:3;
+}
+li a{ /*parent*/
+  color:#333;
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  flex-flow:column wrap;
+  justify-content: space-between;
+
+}
+li.offline a{
+  justify-content:flex-start;
+}
+
+h3.name  { /*item1*/
+/*   margin: 0; */
+  padding: 10px 5px;
+  background: rgba(255,255,255,.8);
+}
+
+.online h3.name {
+  border-left: 10px  solid green;
+}
+.offline h3.name {
+  border-left: 10px  solid red;
+}
+
+ span.status{ /*item2*/
+   font-size:.8em; 
+   padding: 10px 5px;
+   background: rgba(255,255,255,.8);   
+} 
+li{
+  list-style:none;
+}
+
+/* box */
+.box{
+  background-color: #eee;
+  color: #777;
+  display: flex;
+}
+.box:hover{
+  box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+  transition: all .3s;
+}
+
+/* search */
+input[type = search]{
+  padding: 10px;
+  width: 110px;
+  margin: 10px;
+}
+input[type = search]:focus{
+  width: 200px;
+}
+
+
+
+
+/* .noUser{
   display:block;
   background-color: #222;
   color: #fff;
-  padding: 10px;
+  padding: 10px; 
   margin: 10px auto;
  
-}
-#output{
-  margin: 10px 0px;
-}
+}*/
 
-.status{
-  font-size:.8em;  
-}
-
-#logo{
-  width: 4em;
-  position: relative;
-  top:20px;
-  left: -15px;
-}
-
+/* media queries */
 @media screen and (max-width:680px){
-  .grid{   
+  #output{   
     grid-template-columns:  repeat(var(--colNum),150px);
     grid-auto-rows:150px;
     grid-gap: .5em;
     --colNum: 2;
+  }
+  .name{
+    font-weight: regular;
+    font-size: .8em;
   }
     #logo{
     display: none;
   }
 }
 @media all and (max-width:340px){
-  .grid{
+  #output{
     --colNum: 1;
     grid-auto-rows:auto;
     grid-template-columns:1fr;
@@ -133,7 +161,7 @@ input[type=radio]:checked + label{
     align-items:left;
     justify-content:left;
   }
-
+  #output>.box a{background: none;}
   body header{
     text-align: left;
   }
@@ -146,25 +174,7 @@ input[type=radio]:checked + label{
   #filters{
     margin: 5px 0;
   }
-/*   hr{
-    visibility: hidden;
-  }
- */
-/*   label[for="online"]{
-    width: 40px;
-    height: 40px;
-    background-color: green;
-  }
-    label[for="offline"]{
-    width: 40px;
-    height: 40px;
-    background-color: red;
-  }
-      label[for="all"]{
-    width: 40px;
-    height: 40px;
-    background-color: #444;
-  } */
+
 
   input[type = "search"] {
    margin: 5px;

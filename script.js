@@ -5,9 +5,10 @@ $.each(streamers,function(i, streamer){
     return 'https://wind-bow.glitch.me/twitch-api/'+type+'/'+streamer;
   }  
  $.getJSON(makeUrl(streamer,'streams'), function(json){
-    var game,status, streamName,noUser;  
+    var status, streamInfo,noUser; 
+  
    if(json.stream){
-     streamName = json.stream.status;
+      var descr =  json.stream.channel.status;
      status = 'online';
    } else{
     status='offline';
@@ -18,40 +19,40 @@ $.each(streamers,function(i, streamer){
       if(display_name===undefined){          
         noUser=streamer;
        } 
-      var link = 'https://www.twitch.tv/'+streamer;
-      createBox(logo,status,noUser, display_name,link);
+      
+      createBox(logo,status,noUser, display_name,descr);      
    });      
- });
-  
+ });  
 
-  function createBox(logo,status,noUser,display_name,link){    
-    var nameSpan='<span >'+display_name+'</span>';
-    var box = $('<a></a>')
-        .html(nameSpan)
-        .addClass('box')
-        .css({'backgroundImage':'url('+logo+')','backgroundSize':'cover'});
-    // if (window.matchMedia("(min-width: 360px)").matches) {
-    //   box.css('background', 'none');
-    // }else {}
-        
-  
-    
-    
-    var noUserSpan=$('<span></span>').html(noUser+' not found<br/>').addClass('noUser');
+  function createBox(logo,status,noUser,streamer,descr){ 
+    var link = 'https://www.twitch.tv/'+streamer;
+    var box = $('<li></li>');
+    var innerBox = '<h3 class="name">'+streamer+'</h3>'+'<span class                       ="status">'+descr+'</span>';
 
     if(status==='online'){
-      box.addClass('online')
-         .attr('href', link)
-         .attr('title','Watch on Twitch').attr('target','_blank');
-    }else if(status==='offline'){
+      box.append('<a href="'+link+'">'+innerBox+'</a>');
+    }    else {
+      box.append('<a href="'+link+'"><h3 class = "name">'+streamer+'</h3></a>');
+    }       
+    box.addClass('box')
+    .css({'backgroundImage':'url('+logo+')','backgroundSize':'cover'});
+    // if (window.matchMedia("(min-width: 360px)").matches) {
+    //   box.css('background', 'none');
+    // }else {}   
+    
+     box.attr('href', link)
+       .attr('title','Go to Twitch').attr('target','_blank');
+    
+    if(status==='online'){
+      box.addClass('online'); 
+     }else if(status==='offline'){
       box.addClass('offline');
     }    
-    // if (window.matchMedia("(min-width: 360px)").matches) {
-    //   box.css('backgroundImage', 'none');
-    // }
+  
     $('#output').append(box);
   }    
 });
+
   $(document).ready(function(){   
     $('#filters').on('click','input[name="filter"]',function(e){
       $('#output').children().hide();
@@ -68,4 +69,4 @@ $.each(streamers,function(i, streamer){
       }
      });
   
-    });  
+    });    
