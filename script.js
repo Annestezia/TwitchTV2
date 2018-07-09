@@ -1,72 +1,115 @@
-let streamers = ["starladder5","ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "voyboy"];
 
-$.each(streamers,function(i, streamer){
-  function makeUrl(streamer, type){
-    return 'https://wind-bow.glitch.me/twitch-api/'+type+'/'+streamer;
-  }  
- $.getJSON(makeUrl(streamer,'streams'), function(json){
-    var status, streamInfo,noUser; 
-  
-   if(json.stream){
-      var descr =  json.stream.channel.status;
-     status = 'online';
-   } else{
-    status='offline';
-   }  
-    $.getJSON(makeUrl(streamer,'users'),function(user){       
+
+
+let streamers = [
+  "starladder5",
+  "ESL_SC2",
+  "OgamingSC2",
+  "cretetion",
+  "freecodecamp",
+  "storbeck",
+  "habathcx",
+  "RobotCaleb",
+  "noobs2ninjas",
+  "voyboy"
+];
+
+$.each(streamers, function(i, streamer) {
+  function makeUrl(streamer, type) {
+    return "https://wind-bow.glitch.me/twitch-api/" + type + "/" + streamer;
+  }
+  $.getJSON(makeUrl(streamer, "streams"), function(json) {
+    var status, noUser;
+
+    if (json.stream) {
+      var descr = json.stream.channel.status;
+      status = "online";
+    } else {
+      status = "offline";
+    }
+    $.getJSON(makeUrl(streamer, "users"), function(user) {
       var logo = user.logo;
-      var display_name =  user.display_name;
-      if(display_name===undefined){          
-        noUser=streamer;
-       } 
-      
-      createBox(logo,status,noUser, display_name,descr);      
-   });      
- });  
+      var display_name = user.display_name;
+      if (display_name === undefined) {
+        noUser = streamer;
+      }
+      createBox(logo, status, noUser, display_name, descr);
+    });
+  });
 
-  function createBox(logo,status,noUser,streamer,descr){ 
-    var link = 'https://www.twitch.tv/'+streamer;
-    var box = $('<li></li>');
-    var innerBox = '<h3 class="name">'+streamer+'</h3>'+'<span class                       ="status">'+descr+'</span>';
+  function createBox(logo, status, noUser, streamer, descr) {
+    var link = "https://www.twitch.tv/" + streamer;
+    var box = $("<li></li>");
+    var innerBox =
+      '<h3 class="name">' +
+      streamer +
+      "</h3>" +
+      '<span class ="status">' +
+      descr +
+      "</span>";
 
-    if(status==='online'){
-      box.append('<a href="'+link+'">'+innerBox+'</a>');
-    }    else {
-      box.append('<a href="'+link+'"><h3 class = "name">'+streamer+'</h3></a>');
-    }       
-    box.addClass('box')
-    .css({'backgroundImage':'url('+logo+')','backgroundSize':'cover'});
-    // if (window.matchMedia("(min-width: 360px)").matches) {
-    //   box.css('background', 'none');
-    // }else {}   
-    
-     box.attr('href', link)
-       .attr('title','Go to Twitch').attr('target','_blank');
-    
-    if(status==='online'){
-      box.addClass('online'); 
-     }else if(status==='offline'){
-      box.addClass('offline');
-    }    
-  
-    $('#output').append(box);
-  }    
+    if (status === "online") {
+      box.append(
+        '<a href="' +
+          link +
+          '" target ="_blank" title="Watch on Twitch">' +
+          innerBox +
+          "</a>"
+      );
+    } else {
+      box.append(
+        '<a href="' +
+          link +
+          '" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">' +
+          streamer +
+          "</h3></a>"
+      );
+    }
+
+    box
+      .addClass("box")
+      .css({ backgroundImage: "url(" + logo + ")", backgroundSize: "cover" });
+
+    if (status === "online") {
+      box.addClass("online");
+    } else if (status === "offline") {
+      box.addClass("offline");
+    }
+    $("#output").append(box);
+  }
 });
 
-  $(document).ready(function(){   
-    $('#filters').on('click','input[name="filter"]',function(e){
-      $('#output').children().hide();
-      switch(this.id){
-        case 'online':
-         $('#output').find('.online').show();
-         break;
-        case 'offline':
-          $('#output').find('.offline').show();
-          break;
-        case 'all':
-          $('#output').children().show(); 
-          break;
-      }
-     });
-  
-    });    
+$(document).ready(function() {
+  $("#filters").on("click", 'input[name="filter"]', function(e) {
+    $("#output")
+      .children()
+      .hide();
+    switch (this.id) {
+      case "online":
+        $("#output")
+          .find(".online")
+          .show();
+        break;
+      case "offline":
+        $("#output")
+          .find(".offline")
+          .show();
+        break;
+      case "all":
+        $("#output")
+          .children()
+          .show();
+        break;
+    }
+  });
+});
+
+
+$(function() {
+
+  $(".loader_inner").fadeOut();
+  $(".loader").delay(400).fadeOut("slow");
+
+
+}); 
+

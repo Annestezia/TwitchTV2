@@ -9,24 +9,25 @@
 
 </head>
 <body>
+  <div class="loader">
+    <div class="loader_inner"></div>
+  </div>
 <div class="wrap">
   <header>
-  <img src="https://cdn.shopify.com/s/files/1/1620/5647/files/Twitch_Shatter_grande.png" id="logo" alt="logo">
-  <!-- filters --> 
-  <form action = "" id = "filters">      
-      <input type="radio" name="filter" value = "all" id = "all"   class = "all" checked >
+    <img src="https://cdn.shopify.com/s/files/1/1620/5647/files/Twitch_Shatter_grande.png" id="logo" alt="logo">
+    <!-- filters -->
+    <form id="filters">
+      <input type="radio" name="filter" value="all" id="all" class="all" checked>
       <label for="all">all</label>
-      <input type="radio" name="filter" value = "online" id = "online">
+      <input type="radio" name="filter" value="online" id="online">
       <label for="online">online</label>
-      <input type="radio" name="filter" value = "offline" id = "offline" >
-      <label for="offline" >offline</label>   
+      <input type="radio" name="filter" value="offline" id="offline">
+      <label for="offline">offline</label>
     </form>
-    <hr>    
- 
-  <!-- search -->
-  <input type="search" id="input"  placeholder="Search is not working:/">
+    <hr>
+
   </header>
-  <ul id="output" ></ul>   
+  <ul id="output"></ul>
 </div>
 
 </body>
