@@ -47,12 +47,8 @@ $.each(streamers, function(i, streamer) {
     box
       .addClass("box")
       .css({ backgroundImage: `url(${logo })`, backgroundSize: "cover" });
-      
-    if (status === "online") {
-      box.addClass("online");
-    } else if (status === "offline") {
-      box.addClass("offline");
-    }
+
+    box.addClass(status);
     $("#output").append(box);
   }
 });
