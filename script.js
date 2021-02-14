@@ -1,8 +1,4 @@
-
-
-
-let streamers = [
-  "starladder5",
+const streamers = [
   "ESL_SC2",
   "OgamingSC2",
   "cretetion",
@@ -10,34 +6,29 @@ let streamers = [
   "storbeck",
   "habathcx",
   "RobotCaleb",
-  "noobs2ninjas",
-  "voyboy"
-];
+  "noobs2ninjas"];
 
 $.each(streamers, function(i, streamer) {
   function makeUrl(streamer, type) {
-    return "https://wind-bow.glitch.me/twitch-api/" + type + "/" + streamer;
+    return `https://wind-bow.glitch.me/twitch-api/${type}/${streamer}`;
   }
   $.getJSON(makeUrl(streamer, "streams"), function(json) {
-    var status, noUser;
-
+    var status, descr, noUser;
+    
     if (json.stream) {
-      var descr = json.stream.channel.status;
+      descr = json.stream.channel.status;
       status = "online";
     } else {
       status = "offline";
     }
     $.getJSON(makeUrl(streamer, "users"), function(user) {
-      var logo = user.logo;
-      var display_name = user.display_name;
-      if (display_name === undefined) {
-        noUser = streamer;
-      }
-      createBox(logo, status, noUser, display_name, descr);
+      const {logo,display_name}=user;
+  
+      createBox(logo, status, display_name, descr);
     });
   });
 
-  function createBox(logo, status, noUser, streamer, descr) {
+  function createBox(logo, status, streamer, descr) {
     var link = "https://www.twitch.tv/" + streamer;
     var box = $("<li></li>");
     var innerBox =
