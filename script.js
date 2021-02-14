@@ -1,4 +1,4 @@
-const streamers = [
+{const streamers = [
   "ESL_SC2",
   "OgamingSC2",
   "cretetion",
@@ -11,18 +11,16 @@ const streamers = [
 const makeUrl = (userName, type) => `https://wind-bow.glitch.me/twitch-api/${type}/${userName}`;
 
 $.each(streamers, function(i, streamer) {
-  let status = offline;
-
   const getStreams = $.getJSON(makeUrl(streamer, "streams"), function (streamData) {
       return streamData;
     });
-  const getUsers =$.getJSON(makeUrl(streamer, "users"), function (userData) {
-    const { logo, display_name } = userData;   
+  const getUsers =$.getJSON(makeUrl(streamer, "users"), function (userData) {  
     return userData;
   });
-  Promise.all([getStreams, getUsers]).then((values) => {
-    const {logo, display_name}=values[1];
-    let descr="";
+
+  Promise.all([getStreams, getUsers]).then(values => {
+    const {display_name}=values[1];
+    let {logo}=values[1], descr="",status="offline";
     if (values[0].stream!==null) {
       descr = values[0].stream.channel.status;
       status = "online";
@@ -31,24 +29,27 @@ $.each(streamers, function(i, streamer) {
      descr='offline';
     }
     createBox(logo, status, display_name, descr);
+  }).catch(function(err) {
+    console.log(err.message);
   });
   
   function createBox(logo, status, display_name, descr) {
     const link = `https://www.twitch.tv/${display_name}`;
-    const box = $("<li></li>");
+    const box = $("<li class='box'></li>");
     const innerBox = `<h3 class="name">${display_name}</h3><span class ="status">${descr}</span>`;  
 
     if (status === "online") {
       box.append(`<a href="${link}" target ="_blank" title="Watch on Twitch">${innerBox}</a>`);
     } else {
-      box.append(`<a href="${link}" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">${display_name}</h3></a>`);
+      box.append(`<a href="${link}" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">${display_name}</h3></a>`); 
     }
 
-    box
-      .addClass("box")
-      .css({ backgroundImage: `url(${logo })`, backgroundSize: "cover" });
+    box.addClass(status)
+    .css({ backgroundImage: `url(${logo })`, backgroundSize: "cover" })
+    .on('error', function(err){
+      console.log(err);
+    });
 
-    box.addClass(status);
     $("#output").append(box);
   }
 });
@@ -84,6 +85,5 @@ $(function () {
   $(".loader_inner").fadeOut();
   $(".loader").delay(400).fadeOut("slow");
 
-
 });
-
+}
