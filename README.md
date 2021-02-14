@@ -1,5 +1,5 @@
 # Twitch TV
-Example of using *Twitch  API*
+Example of using *Twitch  API* [Demo](https://annestezia.github.io/TwitchTV2/)
 ### Features
 * See who is  online, offline, and all of them.
 * If user is streaming (green   square indicator) go watch on Twitch 
