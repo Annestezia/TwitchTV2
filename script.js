@@ -46,8 +46,8 @@ $.each(streamers, function(i, streamer) {
 
     box
       .addClass("box")
-      .css({ backgroundImage: "url(" + logo + ")", backgroundSize: "cover" });
-
+      .css({ backgroundImage: `url(${logo })`, backgroundSize: "cover" });
+      
     if (status === "online") {
       box.addClass("online");
     } else if (status === "offline") {
