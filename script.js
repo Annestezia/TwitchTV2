@@ -34,32 +34,14 @@ $.each(streamers, function(i, streamer) {
   });
   
   function createBox(logo, status, display_name, descr) {
-    var link = "https://www.twitch.tv/" + display_name;
-    var box = $("<li></li>");
-    var innerBox =
-      '<h3 class="name">' +
-      display_name +
-      "</h3>" +
-      '<span class ="status">' +
-      descr +
-      "</span>";
+    const link = `https://www.twitch.tv/${display_name}`;
+    const box = $("<li></li>");
+    const innerBox = `<h3 class="name">${display_name}</h3><span class ="status">${descr}</span>`;  
 
     if (status === "online") {
-      box.append(
-        '<a href="' +
-        link +
-        '" target ="_blank" title="Watch on Twitch">' +
-        innerBox +
-        "</a>"
-      );
+      box.append(`<a href="${link}" target ="_blank" title="Watch on Twitch">${innerBox}</a>`);
     } else {
-      box.append(
-        '<a href="' +
-        link +
-        '" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">' +
-        display_name +
-        "</h3></a>"
-      );
+      box.append(`<a href="${link}" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">${display_name}</h3></a>`);
     }
 
     box
