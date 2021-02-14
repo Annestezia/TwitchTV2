@@ -8,32 +8,37 @@ const streamers = [
   "RobotCaleb",
   "noobs2ninjas"];
 
-$.each(streamers, function(i, streamer) {
-  function makeUrl(streamer, type) {
-    return `https://wind-bow.glitch.me/twitch-api/${type}/${streamer}`;
-  }
-  $.getJSON(makeUrl(streamer, "streams"), function(json) {
-    var status, descr, noUser;
-    
-    if (json.stream) {
-      descr = json.stream.channel.status;
-      status = "online";
-    } else {
-      status = "offline";
-    }
-    $.getJSON(makeUrl(streamer, "users"), function(user) {
-      const {logo,display_name}=user;
-  
-      createBox(logo, status, display_name, descr);
-    });
-  });
+const makeUrl = (userName, type) => `https://wind-bow.glitch.me/twitch-api/${type}/${userName}`;
 
-  function createBox(logo, status, streamer, descr) {
-    var link = "https://www.twitch.tv/" + streamer;
+$.each(streamers, function(i, streamer) {
+  let status = offline;
+
+  const getStreams = $.getJSON(makeUrl(streamer, "streams"), function (streamData) {
+      return streamData;
+    });
+  const getUsers =$.getJSON(makeUrl(streamer, "users"), function (userData) {
+    const { logo, display_name } = userData;   
+    return userData;
+  });
+  Promise.all([getStreams, getUsers]).then((values) => {
+    const {logo, display_name}=values[1];
+    let descr="";
+    if (values[0].stream!==null) {
+      descr = values[0].stream.channel.status;
+      status = "online";
+    } else{
+     status = "offline"; 
+     descr='offline';
+    }
+    createBox(logo, status, display_name, descr);
+  });
+  
+  function createBox(logo, status, display_name, descr) {
+    var link = "https://www.twitch.tv/" + display_name;
     var box = $("<li></li>");
     var innerBox =
       '<h3 class="name">' +
-      streamer +
+      display_name +
       "</h3>" +
       '<span class ="status">' +
       descr +
@@ -42,18 +47,18 @@ $.each(streamers, function(i, streamer) {
     if (status === "online") {
       box.append(
         '<a href="' +
-          link +
-          '" target ="_blank" title="Watch on Twitch">' +
-          innerBox +
-          "</a>"
+        link +
+        '" target ="_blank" title="Watch on Twitch">' +
+        innerBox +
+        "</a>"
       );
     } else {
       box.append(
         '<a href="' +
-          link +
-          '" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">' +
-          streamer +
-          "</h3></a>"
+        link +
+        '" target ="_blank" title="Go to channel on Twitch"><h3 class = "name">' +
+        display_name +
+        "</h3></a>"
       );
     }
 
@@ -70,8 +75,8 @@ $.each(streamers, function(i, streamer) {
   }
 });
 
-$(document).ready(function() {
-  $("#filters").on("click", 'input[name="filter"]', function(e) {
+$(document).ready(function () {
+  $("#filters").on("click", 'input[name="filter"]', function (e) {
     $("#output")
       .children()
       .hide();
@@ -96,11 +101,11 @@ $(document).ready(function() {
 });
 
 
-$(function() {
+$(function () {
 
   $(".loader_inner").fadeOut();
   $(".loader").delay(400).fadeOut("slow");
 
 
-}); 
+});
 
