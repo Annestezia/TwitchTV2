@@ -79,11 +79,7 @@ $(document).ready(function () {
   });
 });
 
-
-$(function () {
-
-  $(".loader_inner").fadeOut();
-  $(".loader").delay(400).fadeOut("slow");
-
+$( window ).on("load", function() {
+  $(".preload").addClass("preload-finish")
 });
 }
