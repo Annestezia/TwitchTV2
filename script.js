@@ -1,14 +1,18 @@
 {const streamers = [
+  // "csgo_mc",
+  // "admiralbulldog"
+  
   "ESL_SC2",
   "OgamingSC2",
   "cretetion",
   "freecodecamp",
   "storbeck",
-  "habathcx",
+  "habathcx", 
   "RobotCaleb",
-  "noobs2ninjas"];
+   "noobs2ninjas"
+];
 
-const makeUrl = (userName, type) => `https://wind-bow.glitch.me/twitch-api/${type}/${userName}`;
+const makeUrl = (userName, type) => `https://twitch-proxy.freecodecamp.rocks/twitch-api/${type}/${userName}?callback`;
 
 $.each(streamers, function(i, streamer) {
   const getStreams = $.getJSON(makeUrl(streamer, "streams"), function (streamData) {
@@ -18,7 +22,7 @@ $.each(streamers, function(i, streamer) {
     return userData;
   });
 
-  Promise.all([getStreams, getUsers]).then(values => {
+    Promise.all([getStreams, getUsers]).then(values => {
     const {display_name}=values[1];
     let {logo}=values[1], descr="",status="offline";
     if (values[0].stream!==null) {
