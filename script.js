@@ -1,7 +1,4 @@
 {const streamers = [
-  // "csgo_mc",
-  // "admiralbulldog"
-  
   "ESL_SC2",
   "OgamingSC2",
   "cretetion",
